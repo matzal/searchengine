@@ -3,8 +3,10 @@ package com.infoshareacademy.searchengine.dao;
 import com.infoshareacademy.searchengine.domain.User;
 import com.infoshareacademy.searchengine.repository.UsersRepository;
 
+import javax.ejb.Stateless;
 import java.util.List;
 
+@Stateless
 public class UsersRepositoryDaoBean implements UsersRepositoryDao {
 
     public void addUser(User user) {
