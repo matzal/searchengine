@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-@WebServlet()
+@WebServlet("add-user")
 public class AddUserServlet extends HttpServlet {
 
     @EJB
@@ -25,7 +25,7 @@ public class AddUserServlet extends HttpServlet {
             CheckAllParameters(req, resp);
             CheckIfIdAlreadyExist(req, resp);
             usersRepositoryDao.addUser(createUserFromParameters(req));
-            listAllUsers(resp);
+//            listAllUsers(resp);
         } catch (SomeParametersMissingException e) {
             e.printStackTrace();
         } catch (IdAlreadyExistException e) {
@@ -41,11 +41,15 @@ public class AddUserServlet extends HttpServlet {
     }
 
     private boolean someParametersMissing(HttpServletRequest req) {
-        return (req.getParameter("id") != null)
-                & (req.getParameter("name") != null)
-                & (req.getParameter("surname") != null)
-                & (req.getParameter("age") != null)
-                & (req.getParameter("login") != null);
+        return !allParametersPresent(req);
+    }
+
+    private boolean allParametersPresent(HttpServletRequest req) {
+        return ((req.getParameter("id") != null)
+                && (req.getParameter("name") != null)
+                && (req.getParameter("surname") != null)
+                && (req.getParameter("age") != null)
+                && (req.getParameter("login") != null));
     }
 
     private void CheckIfIdAlreadyExist(HttpServletRequest req, HttpServletResponse resp) throws IdAlreadyExistException {
@@ -67,7 +71,7 @@ public class AddUserServlet extends HttpServlet {
         return user;
     }
 
-    private void listAllUsers(HttpServletResponse resp) throws IOException {
+/*    private void listAllUsers(HttpServletResponse resp) throws IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter writer = resp.getWriter();
         writer.println("<!DOCTYPE html>");
@@ -82,7 +86,7 @@ public class AddUserServlet extends HttpServlet {
         }
         writer.println("</body>");
         writer.println("</html>");
-    }
+    }*/
 
 }
 
